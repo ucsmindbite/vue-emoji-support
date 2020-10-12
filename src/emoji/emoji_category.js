@@ -5,7 +5,7 @@ const emoji_categories = [
   },
   {
     name: "People & Body",
-    icon: "🧑"
+    icon: "💆"
   },
   {
     name: "Animals & Nature",
@@ -31,10 +31,6 @@ const emoji_categories = [
     name: "Symbols",
     icon: "♻️"
   },
-  {
-    name: "Flags",
-    icon: "🏴"
-  }
 ];
 
 const skin_tones = [
@@ -42,26 +38,6 @@ const skin_tones = [
     name: "No skin tone",
     icon: "🧑"
   },
-  {
-    name: ": Light skin tone",
-    icon: "🧑🏻"
-  },
-  {
-    name: ": Medium-light skin tone",
-    icon: "🧑🏼"
-  },
-  {
-    name: ": Medium skin tone",
-    icon: "🧑🏽"
-  },
-  {
-    name: ": Medium-dark skin tone",
-    icon: "🧑🏾"
-  },
-  {
-    name: ": Dark skin tone",
-    icon: "🧑🏿"
-  }
 ];
 
 export { emoji_categories, skin_tones };

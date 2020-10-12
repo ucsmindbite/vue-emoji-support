@@ -23,23 +23,7 @@
           v-model="emojiSearch"
         />
         <div class="composer-popover-body-container">
-          <div class="tone-category-group" v-if="showTone">
-            <span
-              v-show="showTone"
-              v-for="(tone, index) in tones"
-              :class="['tone-category', { active: tone.name == currentTone }]"
-              :key="index"
-              @click="selectedTone(tone)"
-            >
-              <span
-                class="tone-category-item"
-                style="font-size: 20px"
-                :title="tone.name"
-                v-html="tone.icon"
-              />
-            </span>
-          </div>
-          <div v-else style="border-top: 1px solid #ccc"></div>
+          <div style="border-top: 1px solid #ccc"></div>
           <div class="composer-popover-body" ref="emoji_body">
             <div class="emoji-picker-groups">
               <div class="grid-emojis emoji-picker-group">
@@ -105,7 +89,6 @@ export default {
           "Activities",
           "Objects",
           "Symbols",
-          "Flags",
         ].filter((item) => item.toLowerCase().indexOf(prop.toLowerCase()) > -1);
       },
     },

@@ -1,3 +1,45 @@
+import Vue from 'vue';
+
+var emoji_categories = [
+  {
+    name: "Smileys & Emotion",
+    icon: "😀"
+  },
+  {
+    name: "People & Body",
+    icon: "💆"
+  },
+  {
+    name: "Animals & Nature",
+    icon: "🐈"
+  },
+  {
+    name: "Food & Drink",
+    icon: "🍕"
+  },
+  {
+    name: "Travel & Places",
+    icon: "🚖"
+  },
+  {
+    name: "Activities",
+    icon: "🏉"
+  },
+  {
+    name: "Objects",
+    icon: "💡"
+  },
+  {
+    name: "Symbols",
+    icon: "♻️"
+  } ];
+
+var skin_tones = [
+  {
+    name: "No skin tone",
+    icon: "🧑"
+  } ];
+
 var emojis = [
   {
     unicode: "\u{1F600}",
@@ -13879,7 +13921,563 @@ var emojis = [
     name: "flag: Wales",
     key: ":flag_Wales:",
     group: "Flags",
-  },
-];
+  } ];
 
-module.exports = emojis;
+var utils = emojis;
+
+/**
+ * regex match emoji e.g. "":eye:"
+ */
+var emojiKeyRegex = /:([a-zA-Z0-9_\-\+]+):/g;
+
+var Emoji = {};
+
+/**
+ * get all emojis
+ * @return {array}
+ */
+Emoji.get = function get() {
+  return utils;
+};
+
+/**
+ * get all emojis
+ * @return {array}
+ */
+Emoji.all = function all() {
+  return Emoji.get();
+};
+
+/**
+ * find emoji by key
+ * @param {string} key
+ * @return {object} | undefined
+ */
+Emoji.findEmojiByKey = function findEmojiByKey(key) {
+  return utils.find(function (item) { return item.key == key; }) || undefined;
+};
+
+/**
+ * find emoji by name
+ * @param {string} name
+ * @return {object} | undefined
+ */
+Emoji.findEmojiByName = function findEmojiByName(name) {
+  name = name.toLowerCase();
+  return utils.find(function (item) { return item.name.toLowerCase() == name; }) || undefined;
+};
+
+/**
+ * search for emoji occurrence by name
+ * @param {string} name
+ * @return {array} | undefined
+ */
+Emoji.searchEmojiByName = function searchEmojiByName(name) {
+  name = name.toLowerCase();
+  return utils.filter(function (item) { return item.name.toLowerCase().indexOf(name) > -1; }) || [];
+};
+
+/**
+ * find emoji by image
+ * @param {symbol} emoji
+ * @return {object} | undefined
+ */
+Emoji.findEmojiByImage = function findEmojiByImage(emoji) {
+  return utils.find(function (item) { return item.emoji == emoji; }) || undefined;
+};
+
+/**
+ * find emoji by group
+ * @param {string} groupName
+ * @return {array} | undefined
+ */
+Emoji.findEmojiByGroup = function findEmojiByGroup(groupName) {
+  groupName = groupName.toLowerCase();
+  return utils.filter(function (item) { return item.group.toLowerCase() == groupName; }) || [];
+};
+
+/**
+ * add colon to str if not added
+ * @param {string} str
+ * @return {string}
+ */
+function addColonToString(str) {
+  if (typeof str == "string") {
+    return str[0] != ":" ? ":" + str + ":" : str;
+  }
+}
+
+/**
+ * encode emoji from character to key value
+ * e.g "Hay! we've won the 🏆" => "Hay! we've won the :trophy:"
+ * @param {string} str
+ * @return {string}
+ */
+Emoji.encodeEmoji = function encodeEmoji(str) {
+  if (!str) { return ""; }
+  return str.split(' ').map(function (value, index) {
+    var s = "";
+    for (var codepoint of value) {
+      var r = utils.find(function (item) { return item.emoji == codepoint; });
+      if (r) { s += r.key; } else { s += codepoint; }
+    }
+    return s;
+  }).join(' ');
+};
+
+/**
+ * decode emoji from key to character value
+ * e.g "Hay! we've won the :trophy:" => "Hay! we've won the 🏆"
+ * @param {string} str
+ * @return {string}
+ */
+Emoji.decodeEmoji = function decodeEmoji(str) {
+  if (!str) { return ""; }
+  return str.split(emojiKeyRegex).map(function (value, index) {
+    var r = utils.find(function (item) { return item.key == addColonToString(value); });
+    if (r) { return Emoji.findEmojiByKey(r.key).unicode; } else { return value; }
+  }).join('');
+};
+
+
+/**
+ * return a random emoji
+ * @return {string}
+ */
+Emoji.getRandomEmoji = function getRandomEmoji() {
+  var indexOfEmoji = Math.floor(Math.random() * utils.length);
+  var emoji = utils[indexOfEmoji];
+  return emoji;
+};
+
+/**
+ * get all emoji by skin tones
+ * e.g "light skin tone" => [{...}]
+ * @param tone
+ * @return {array}
+ */
+Emoji.getSkinTones = function getSkinTones(tone) {
+  tone = tone.toLowerCase();
+  if (typeof tone != "string") { return; }
+  if (tone == "no skin tone") {
+    return utils.filter(function (item) { return item.name.toLowerCase().indexOf("tone") < 0; });
+  } else {
+    return utils.filter(function (item) { return item.name.toLowerCase().indexOf(tone) > -1; });
+  }
+};
+
+/**
+ * get all emoji by group name
+ * and skin tone
+ * @param {string} tone, {string} category
+ * @return {array}
+ */
+Emoji.getEmojiByCategoryAndSkinTone = function getEmojiByCategoryAndSkinTone(tone, category) {
+  tone = tone.toLowerCase();
+  category = category.toLowerCase();
+  if (typeof tone != "string") { return; }
+  if (tone == "no skin tone") {
+    return utils.filter(function (item) { return item.name.toLowerCase().indexOf("tone") < 0 && item.group.toLowerCase() == category; });
+  } else {
+    return utils.filter(function (item) { return item.name.toLowerCase().indexOf(tone) > -1 && item.group.toLowerCase() == category; });
+  }
+};
+
+var emoji = Emoji;
+
+//
+var script = {
+  props: {
+    backgroundColor: {
+      type: String,
+      default: "#f5f5f5",
+    },
+    radius: {
+      type: [String, Number],
+      default: 8,
+    },
+    selectedCategory: {
+      type: String,
+      default: "Smileys & Emotion",
+      validator: function validator(prop) {
+        return [
+          "Smileys & Emotion",
+          "People & Body",
+          "Animals & Nature",
+          "Food & Drink",
+          "Travel & Places",
+          "Activities",
+          "Objects",
+          "Symbols" ].filter(function (item) { return item.toLowerCase().indexOf(prop.toLowerCase()) > -1; });
+      },
+    },
+    color: {
+      type: String,
+      default: "#000",
+    },
+    icon: {
+      type: String,
+      default: "fa fa-smile",
+    },
+    open: {
+      type: Boolean,
+      default: false,
+    },
+    width: {
+      type: String,
+      default: "96%",
+    },
+    height: {
+      type: String,
+      default: "250px",
+    },
+    searchLabel: {
+      type: String,
+      default: "Search",
+    },
+  },
+  data: function data() {
+    return {
+      categories: [],
+      current: this.selectedCategory,
+      currentTone: "No skin tone",
+      emojis: [],
+      emojiSearch: "",
+      showTone: false,
+      tones: [],
+      isPickerEnabled: this.open,
+    };
+  },
+  methods: {
+    getEmojiCategories: function getEmojiCategories() {
+      this.categories = emoji_categories;
+    },
+    selected: function selected(category) {
+      this.current = category.name;
+      if (this.current == "People & Body") {
+        this.getEmojiSkinToneCategory();
+        this.showTone = true;
+        this.$refs["emoji_body"].style.top = "95px";
+        this.getEmojiBySkinTonesAndCategoryName(this.currentTone, this.current);
+      } else {
+        this.showTone = false;
+        this.$refs["emoji_body"].style.top = "58px";
+        this.getEmojiByCategoryName(this.current);
+      }
+    },
+    selectedTone: function selectedTone(tone) {
+      this.currentTone = tone.name;
+      if (this.current == "People & Body") {
+        this.$refs["emoji_body"].style.top = "95px";
+        this.getEmojiBySkinTonesAndCategoryName(this.currentTone, this.current);
+      } else {
+        this.showTone = false;
+        this.getEmojiByCategoryName(this.current);
+        this.$refs["emoji_body"].style.top = "58px";
+      }
+    },
+    toggleEmojiPicker: function toggleEmojiPicker() {
+      this.isPickerEnabled = !this.isPickerEnabled;
+      this.$emit("toggle");
+    },
+    searchEmoji: function searchEmoji() {
+      var input = this.emojiSearch;
+      var el = this.$refs["emoji_body"].querySelectorAll(".emoji-picker-emoji");
+      for (var element of el) {
+        if (element.getAttribute("title").indexOf(input) < 0) {
+          element.style.display = "none";
+        } else {
+          element.style.display = "inline-table";
+        }
+      }
+    },
+    loadEmojis: function loadEmojis() {
+      this.emojis = emoji.get();
+    },
+    getEmojiByCategoryName: function getEmojiByCategoryName(category) {
+      this.emojiSearch = "";
+      this.emojis = emoji.findEmojiByGroup(category);
+    },
+    showEmojiTones: function showEmojiTones() {
+      this.showTone = !this.showTone;
+    },
+    getEmojiBySkinTonesAndCategoryName: function getEmojiBySkinTonesAndCategoryName(tone, category) {
+      this.emojiSearch = "";
+      this.emojis = emoji.getEmojiByCategoryAndSkinTone(tone, category);
+    },
+    getEmojiSkinToneCategory: function getEmojiSkinToneCategory() {
+      this.tones = skin_tones;
+    },
+  },
+  mounted: function mounted() {
+    this.getEmojiCategories();
+    this.getEmojiByCategoryName(this.current);
+  },
+  watch: {
+    current: function current() {
+      this.$refs["emoji_body"].scrollTop = 0;
+    },
+    currentTone: function currentTone() {
+      this.$refs["emoji_body"].scrollTop = 0;
+    },
+    open: function open() {
+      if (this.open == false) {
+        this.isPickerEnabled = false;
+      } else {
+        this.isPickerEnabled = true;
+      }
+    },
+  },
+};
+
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+    if (typeof shadowMode !== 'boolean') {
+        createInjectorSSR = createInjector;
+        createInjector = shadowMode;
+        shadowMode = false;
+    }
+    // Vue.extend constructor export interop.
+    var options = typeof script === 'function' ? script.options : script;
+    // render functions
+    if (template && template.render) {
+        options.render = template.render;
+        options.staticRenderFns = template.staticRenderFns;
+        options._compiled = true;
+        // functional template
+        if (isFunctionalTemplate) {
+            options.functional = true;
+        }
+    }
+    // scopedId
+    if (scopeId) {
+        options._scopeId = scopeId;
+    }
+    var hook;
+    if (moduleIdentifier) {
+        // server build
+        hook = function (context) {
+            // 2.3 injection
+            context =
+                context || // cached call
+                    (this.$vnode && this.$vnode.ssrContext) || // stateful
+                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
+            // 2.2 with runInNewContext: true
+            if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                context = __VUE_SSR_CONTEXT__;
+            }
+            // inject component styles
+            if (style) {
+                style.call(this, createInjectorSSR(context));
+            }
+            // register component module identifier for async chunk inference
+            if (context && context._registeredComponents) {
+                context._registeredComponents.add(moduleIdentifier);
+            }
+        };
+        // used by ssr in case component is cached and beforeCreate
+        // never gets called
+        options._ssrRegister = hook;
+    }
+    else if (style) {
+        hook = shadowMode
+            ? function (context) {
+                style.call(this, createInjectorShadow(context, this.$root.$options.shadowRoot));
+            }
+            : function (context) {
+                style.call(this, createInjector(context));
+            };
+    }
+    if (hook) {
+        if (options.functional) {
+            // register for functional component in vue file
+            var originalRender = options.render;
+            options.render = function renderWithStyleInjection(h, context) {
+                hook.call(context);
+                return originalRender(h, context);
+            };
+        }
+        else {
+            // inject component registration as beforeCreate hook
+            var existing = options.beforeCreate;
+            options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+        }
+    }
+    return script;
+}
+
+/* script */
+var __vue_script__ = script;
+/* template */
+var __vue_render__ = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    { staticClass: "emoji-wrapper", attrs: { id: "emoji-wrapper" } },
+    [
+      _c(
+        "div",
+        {
+          class:
+            "composer-popover composer-emoji-popover " +
+            (_vm.isPickerEnabled ? "active" : ""),
+          style: {
+            "background-color": _vm.backgroundColor,
+            "border-radius": _vm.radius + "px",
+            color: _vm.color,
+            width: _vm.width,
+            height: _vm.height
+          }
+        },
+        [
+          _c("div", { staticClass: "emoji-picker" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.emojiSearch,
+                  expression: "emojiSearch"
+                }
+              ],
+              staticClass: "composer-popover-input",
+              attrs: {
+                placeholder: _vm.searchLabel,
+                name: "search",
+                id: "search",
+                autocomplete: "off"
+              },
+              domProps: { value: _vm.emojiSearch },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.emojiSearch = $event.target.value;
+                  },
+                  _vm.searchEmoji
+                ]
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "composer-popover-body-container" }, [
+              _c("div", { staticStyle: { "border-top": "1px solid #ccc" } }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { ref: "emoji_body", staticClass: "composer-popover-body" },
+                [
+                  _c("div", { staticClass: "emoji-picker-groups" }, [
+                    _c(
+                      "div",
+                      { staticClass: "grid-emojis emoji-picker-group" },
+                      _vm._l(_vm.emojis, function(emoji) {
+                        return _c(
+                          "span",
+                          {
+                            key: emoji.key,
+                            staticClass: "emoji-picker-emoji",
+                            attrs: { title: emoji.name },
+                            on: {
+                              click: function($event) {
+                                return _vm.$emit("click", emoji)
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(emoji.emoji))]
+                        )
+                      }),
+                      0
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "emoji-category-group" },
+                _vm._l(_vm.categories, function(category, index) {
+                  return _c(
+                    "div",
+                    {
+                      key: index,
+                      class: [
+                        "category",
+                        { active: category.name === _vm.current }
+                      ],
+                      on: {
+                        click: function($event) {
+                          return _vm.selected(category)
+                        }
+                      }
+                    },
+                    [
+                      _c("span", {
+                        staticClass: "emoji-category",
+                        staticStyle: { "font-size": "18px" },
+                        attrs: { title: category.name },
+                        domProps: { innerHTML: _vm._s(category.icon) }
+                      })
+                    ]
+                  )
+                }),
+                0
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "span",
+        { staticClass: "send-button", on: { click: _vm.toggleEmojiPicker } },
+        [_c("i", { class: "icon-emoticon " + _vm.icon })]
+      )
+    ]
+  )
+};
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+
+  /* style */
+  var __vue_inject_styles__ = undefined;
+  /* scoped */
+  var __vue_scope_id__ = "data-v-03aa21ca";
+  /* module identifier */
+  var __vue_module_identifier__ = undefined;
+  /* functional template */
+  var __vue_is_functional_template__ = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  var __vue_component__ = /*#__PURE__*/normalizeComponent(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    false,
+    undefined,
+    undefined,
+    undefined
+  );
+
+// import vue
+
+var components = {
+  EmojiComponent: __vue_component__
+};
+
+Object.keys(components).forEach(function (component) {
+  Vue.component(component, components[component]);
+});
+
+export { __vue_component__ as VueChatEmoji, emoji as emojis };
