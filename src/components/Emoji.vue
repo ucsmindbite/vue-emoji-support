@@ -138,7 +138,7 @@ export default {
       if (this.current == "People & Body") {
         this.getEmojiSkinToneCategory();
         this.showTone = true;
-        this.$refs["emoji_body"].style.top = "95px";
+        this.$refs["emoji_body"].style.top = "58px";
         this.getEmojiBySkinTonesAndCategoryName(this.currentTone, this.current);
       } else {
         this.showTone = false;
@@ -149,7 +149,7 @@ export default {
     selectedTone(tone) {
       this.currentTone = tone.name;
       if (this.current == "People & Body") {
-        this.$refs["emoji_body"].style.top = "95px";
+        this.$refs["emoji_body"].style.top = "58px";
         this.getEmojiBySkinTonesAndCategoryName(this.currentTone, this.current);
       } else {
         this.showTone = false;
