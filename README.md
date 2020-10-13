@@ -10,7 +10,7 @@
 
 This repository is a fork of [vue-chat-emoji](https://github.com/vestusola/vue-chat-emoji). 
 
-License (MIT)[LICENSE] (c) Oyeleye Festus Olatunbosun (Vestusola)[https://github.com/vestusola].
+License [MIT](LICENSE) (c) Oyeleye Festus Olatunbosun [Vestusola]( https://github.com/vestusola).
 
 ### Details
 
@@ -20,7 +20,7 @@ License (MIT)[LICENSE] (c) Oyeleye Festus Olatunbosun (Vestusola)[https://github
 * ✅ Emoji formatter 
 * ✅ Security update monitored
 * ✅ Minified distribution
-* ❌ CDN Support  (_Please visit (the original repository)[https://github.com/vestusola/vue-chat-emoji] for CDN usage!_)
+* ❌ CDN Support  (_Please visit [the original repository](https://github.com/vestusola/vue-chat-emoji) for CDN usage!_)
 
 
 Supported browsers as of date:
@@ -200,7 +200,7 @@ export default {
 
 This repository has no published package as of yet due to the minimal diff against original repository. 
 
-Please visit (the original repository)[https://github.com/vestusola/vue-chat-emoji] to see CDN usage instructions.
+Please visit [the original repository](https://github.com/vestusola/vue-chat-emoji) to see CDN usage instructions.
 
 ---
 
