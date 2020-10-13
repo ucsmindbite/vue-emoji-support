@@ -138,7 +138,7 @@ Usage | Description
 `findEmojiByGroup()` | Return [{...}] if found and [] if search not found.
 ```
 
-## Props
+### Props
 
 List of props available:
 
