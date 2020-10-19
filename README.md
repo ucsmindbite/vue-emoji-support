@@ -14,12 +14,12 @@ License [MIT](LICENSE) (c) Oyeleye Festus Olatunbosun [Vestusola]( https://githu
 
 ### Details
 
-* ❌ Typescript support  
-* ❌ Crossbrowser emoji support (_see the supported browsers below!_)
+* ✅ Typescript support (base)
 * ✅ Emoji picker 
 * ✅ Emoji formatter 
 * ✅ Security update monitored
 * ✅ Minified distribution
+* ❌ Crossbrowser emoji support (_see the supported browsers below!_)
 * ❌ CDN Support  (_Please visit [the original repository](https://github.com/vestusola/vue-chat-emoji) for CDN usage!_)
 
 

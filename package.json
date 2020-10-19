@@ -7,6 +7,7 @@
   "module": "dist/vue-chat-emoji.esm.js",
   "unpkg": "dist/vue-chat-emoji.min.js",
   "style": "dist/vue-chat-emoji.css",
+  "typings": "types/index.d.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build-bundle": "vue-cli-service build --target lib --name vue-chat-emoji ./src/components/index.js",
