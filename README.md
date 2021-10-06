@@ -12,6 +12,20 @@ This repository is a fork of [vue-chat-emoji](https://github.com/vestusola/vue-c
 
 License [MIT](LICENSE) (c) Oyeleye Festus Olatunbosun [Vestusola]( https://github.com/vestusola).
 
+
+## Why Fork?
+
+This fork was originally used as a branch for PR to the origin package. But after an email-conversation with the author of the original package, a fork of the project with continued development was both recommended and approved from the author. 
+
+Therefore, vue-emoji-support lays infront of you. 
+
+Our goals:
+
+* Cross-browser support
+* Extended list of Emoji's
+* Port to native JS, React and Vue 3
+
+
 ### Details
 
 * ✅ Typescript support (base)
@@ -32,7 +46,7 @@ Supported browsers as of date:
 * ❌ Linux Chromium
 * ❌ Linux Chrome
 
-List is determined throughout manual testing against the specified browsers and operative systems.
+List is resolved throughout manual testing against the specified browsers and operative systems.
 
 
 ## Preview
@@ -96,7 +110,7 @@ new Vue({
 #### Events
 Name | Description
 --- | ---
-`click` | Emitted when emoji is clicked. 
+`click` | Emitted when an emoji is clicked. 
 ```vue
 <template>
   <div id="app">
@@ -146,7 +160,7 @@ List of props available:
 Name | Type | Description
 --- | --- | ---
 `backgroundColor` | `String` | (Style property) set the emoji container background color. Default: #f5f5f5 or whitesmoke
-`radius` | `String` or `Number` | (Style property) Set the emoji container border radius. Default: 8
+`radius` | `String` / `Number` | (Style property) Set the emoji container border radius. Default: 8
 `selectedCategory` | `String` | Set default emoji category. Default: "Smileys & Emotion"
 `color` | `String` | Set emoji container color. Default: "#000"
 `icon` | `String` | Set emoji icon. Default: "fa fa-smile"
