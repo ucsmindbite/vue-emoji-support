@@ -6,16 +6,17 @@
 * Input conversion (`hello :birthday_cake:!` => hello 🎂 !)
 
 
-## Fork
+## Credits
 
-This repository is a fork of [vue-chat-emoji](https://github.com/vestusola/vue-chat-emoji). 
+* License [MIT](LICENSE) (c) PatricNox[PatricNox]( https://github.com/PatricNox).
 
-License [MIT](LICENSE) (c) Oyeleye Festus Olatunbosun [Vestusola]( https://github.com/vestusola).
+* All contributors[Contributors](https://github.com/ucsmindbite/vue-emoji-support/graphs/contributors) 
 
-
-## Why Fork?
+## Goals of repository
 
 This fork was originally used as a branch for PR to the origin package. But after an email-conversation with the author of the original package, a fork of the project with continued development was both recommended and approved from the author. 
+
+We also got it confirmed that the origin package is deprecated and too far away from ours, giving us the ability to license and credit it ourselves.
 
 Therefore, vue-emoji-support lays infront of you. 
 
@@ -23,7 +24,7 @@ Our goals:
 
 * Cross-browser support
 * Extended list of Emoji's
-* Port to native JS, React and Vue 3
+* Port to native JS, React and Vue 2
 
 
 ### Details
