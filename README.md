@@ -6,11 +6,11 @@
 * Input conversion (`hello :birthday_cake:!` => hello 🎂 !)
 
 
-## Credits
+## License & Credits
 
-* License [MIT](LICENSE) (c) PatricNox[PatricNox]( https://github.com/PatricNox).
+* License [MIT](LICENSE) (c) [PatricNox]( https://github.com/PatricNox).
 
-* All contributors[Contributors](https://github.com/ucsmindbite/vue-emoji-support/graphs/contributors) 
+* All [Contributors](https://github.com/ucsmindbite/vue-emoji-support/graphs/contributors) 
 
 ## Goals of repository
 
